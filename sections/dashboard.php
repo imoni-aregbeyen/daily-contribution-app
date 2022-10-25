@@ -1,5 +1,25 @@
 <?php
+$revenue = 0; $rvn_str = '';
+$rvn = isset($_GET['rvn']) ? $_GET['rvn'] : $this_month;
+$rvn_len = strlen($rvn);
+if ($rvn === $today) {
+  $rvn_str = 'Today';
+} elseif ($rvn === $this_month) {
+  $rvn_str = 'This Month';
+} elseif ($rvn === $this_year) {
+  $rvn_str = 'This Year';
+}
 
+$savings = get_data('savings');
+foreach ($savings as $saving) {
+  $dts = json_decode($saving['dates'], true);
+  foreach ($dts as $dt => $da) {
+    foreach ($da as $date => $amount) {
+      if (substr($dt, 0, $rvn_len) === $rvn)
+        $revenue += $amount;
+    }
+  }
+}
 ?>
 <div class="row">
 
@@ -53,23 +73,22 @@
                 <h6>Filter</h6>
               </li>
 
-              <li><a class="dropdown-item" href="#">Today</a></li>
-              <li><a class="dropdown-item" href="#">This Month</a></li>
-              <li><a class="dropdown-item" href="#">This Year</a></li>
+              <li><a class="dropdown-item" href="?page=dashboard&rvn=<?= $today ?>">Today</a></li>
+              <li><a class="dropdown-item" href="?page=dashboard&rvn=<?= $this_month ?>">This Month</a></li>
+              <li><a class="dropdown-item" href="?page=dashboard&rvn=<?= $this_year ?>">This Year</a></li>
             </ul>
           </div>
 
           <div class="card-body">
-            <h5 class="card-title">Revenue <span>| This Month</span></h5>
+            <h5 class="card-title">Revenue <span>| <?= $rvn_str ?></span></h5>
 
             <div class="d-flex align-items-center">
               <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                <i class="bi bi-currency-dollar"></i>
+                <i class="bi bi-currency-naira">&#8358;</i>
               </div>
               <div class="ps-3">
-                <h6>$3,264</h6>
-                <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
+                <h6>&#8358;<?= number_format($revenue) ?></h6>
+                <!-- <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span> -->
               </div>
             </div>
           </div>

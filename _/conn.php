@@ -19,7 +19,9 @@ $msg = isset($_POST['msg']) ? test_input($_POST['msg']) : '';
 $dis = isset($_POST['dis']) ? explode(',', $_POST['dis']) : [];
 $tbl = isset($_POST['tbl']) ? test_input($_POST['tbl']) : '';
 $ssn = isset($_POST['ssn']) ? test_input($_POST['ssn']) : false;
-$date = date('Y-m-d');
+$today = $date = date('Y-m-d');
+$this_month = date('Y-m');
+$this_year = date('Y');
 
 function test_input($data) {
   $data = trim($data);
