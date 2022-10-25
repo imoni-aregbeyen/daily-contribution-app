@@ -18,11 +18,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $dates = json_decode($row['dates'], true);
       $up_date = (strtotime($post_date) > strtotime($row['post_date'])) ? $post_date : $row['post_date'];
       $up_amount = $amount + $row['amount'];
-    }
-    $dates[$post_date] = $amount; $dates = json_encode($dates);
+    } 
+    $dates[$date][$post_date] = $amount;
+    $dates = json_encode($dates);
     $sql = "UPDATE $tbl SET amount=$up_amount, post_date='$up_date', dates='$dates' WHERE id=$id";
   } else {
-    $dates[$post_date] = $amount;
+    $dates[$date][$post_date] = $amount;
     $dates = json_encode($dates); 
     $sql = "INSERT INTO $tbl (agent_id, customer_id, amount, post_date, dates, post_month, month_int, post_year) VALUES
     ($agent_id, $customer_id, $amount, '$post_date', '$dates', '$post_month', $month_int, $post_year)";

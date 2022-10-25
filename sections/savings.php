@@ -32,9 +32,11 @@ if ($savings_count > 0) {
 
 foreach ($savings as $saving) {
   $dts = json_decode($saving['dates'], true);
-  foreach ($dts as $date => $amount) {
-    $total += $amount;
-    $dates[$date] = $amount;
+  foreach ($dts as $dt => $da) {
+    foreach ($da as $date => $amount) {
+      $total += $amount;
+      $dates[$date] = $amount;
+    }
   }
 }
 
