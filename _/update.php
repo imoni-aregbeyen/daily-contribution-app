@@ -36,8 +36,6 @@ if ($conn->query($sql) === TRUE) {
       }
     }
   }
-  if ($msg !== '')
-    $_SESSION['alerts'][] = $msg;
 } else {
   $_SESSION['alerts'][] = "Error: " . $sql . "<br>" . $conn->error;
 }
