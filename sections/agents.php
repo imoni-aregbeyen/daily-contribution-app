@@ -1,4 +1,6 @@
 <?php
+if ($user['role'] !== 'administrator') die;
+
 $agents = get_data('agents');
 rsort($agents);
 

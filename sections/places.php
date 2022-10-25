@@ -1,4 +1,6 @@
 <?php
+if ($user['role'] !== 'administrator') die;
+
 $places = get_data('places');
 ?>
 <button type="button" class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addPlaceModal">

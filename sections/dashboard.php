@@ -1,3 +1,6 @@
+<?php
+
+?>
 <div class="row">
 
   <!-- Left side columns -->
