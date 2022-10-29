@@ -16,18 +16,19 @@ $agent = get_data('agents', $customer['agent_id'])[0];
 $post_date = $date; $dates = [];
 if ($user['role'] === 'administrator')  {
   $savings = get_data('savings', "customer_id=$customer_id ORDER BY post_year, month_int DESC");
+  $withdrawals = get_data('withdrawals', "customer_id=$customer_id");
 } elseif ($user['role'] === 'agent') {
   $agent_id = $user['id'];
   $savings = get_data('savings', "customer_id=$customer_id && agent_id=$agent_id ORDER BY post_year, month_int DESC");
+  $withdrawals = get_data('withdrawals', "customer_id=$customer_id");
 } elseif ($user['role'] === 'customer') {
   die;
 }
 
-$total = 0;
+$total = $withdrawn = $balance = 0;
 $savings_count = count($savings);
 if ($savings_count > 0) {
   $post_date = date('Y-m-d', strtotime($savings[0]['post_date'] . '+1 day'));
-  // $dates = json_decode($savings[0]['dates'], true);
 }
 
 foreach ($savings as $saving) {
@@ -39,6 +40,12 @@ foreach ($savings as $saving) {
     }
   }
 }
+
+foreach ($withdrawals as $withdrawal) {
+  $withdrawn += $withdrawal['amount'];
+}
+
+$balance = $total - $withdrawn;
 
 // CALENDAR
 date_default_timezone_set('Africa/Lagos');
@@ -154,7 +161,8 @@ for ($day = 1; $day <= $day_count; $day++, $str++) {
   </div>
   <?php endif; ?>
   <div class="col-lg">
-    Total Savings: &#8358;<?= number_format($total) ?>
+    Total Withdrawn: <span class="text-warning">&#8358;<?= number_format($withdrawn) ?></span>,
+    Balance: <span class="text-primary">&#8358;<?= number_format($balance) ?></span>
   </div>
 </div>
 

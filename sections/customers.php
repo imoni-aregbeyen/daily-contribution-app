@@ -77,6 +77,23 @@ if ($user['role'] === 'administrator') {
               </div>
               <span class="small fst-italic">Default password is: 12345678</span>
             </div>
+
+            <details>
+              <summary>Account Details</summary>
+              <div class="col-12 input-group">
+                <label for="accountNumber" class="input-group-text col-4">Account Number</label>
+                <input type="text" name="account_number" id="accountNumber" class="form-control">
+              </div>
+              <div class="col-12 input-group">
+                <label for="bankName" class="input-group-text col-4">Bank Name</label>
+                <input type="text" name="bank_name" id="bankName" class="form-control">
+              </div>
+              <div class="col-12 input-group">
+                <label for="accountName" class="input-group-text col-4">Account Name</label>
+                <input type="text" name="account_name" id="accountName" class="form-control">
+              </div>
+            </details>
+
             <div class="col-12">
               <button type="submit" class="btn btn-primary w-100">Create Account</button>
             </div>
@@ -97,24 +114,48 @@ if ($user['role'] === 'administrator') {
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
+                <th scope="col">Phone</th>
                 <th scope="col">Address</th>
+                <?php if ($user['role'] === 'administrator'): ?>
+                  <th>Agent</th>
+                <?php endif; ?>
+                <th scope="col">Account Details</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              <?php $sn = 1; foreach($customers as $customer): ?>
+              <?php $sn = 1; foreach($customers as $customer): $agent = get_data('agents', $customer['agent_id'])[0]; ?>
                 <tr>
                   <td><?= $sn++ ?></td>
                   <td>
-                    <?= ucwords($customer['name']) ?> <br>
-                    <?= (int)$customer['phone'] ?>
+                    <?= ucwords($customer['name']) ?> 
+                  </td>
+                  <td>
+                    <a href="tel:<?= $customer['phone'] ?>"><?= $customer['phone'] ?></a>
                   </td>
                   <td>
                     <span class="small"><?= $customer['address'] ?></span>
                   </td>
+                  <?php if ($user['role'] === 'administrator'): ?>
+                  <td>
+                    <span class="small"><?= ucwords($agent['name']) ?></span>
+                  </td>
+                  <?php endif; ?>
+                  <td>
+                    <span class="small"><?= $customer['account_number'] ?></span> <br>
+                    <span class="small"><?= $customer['bank_name'] ?></span> <br>
+                    <span class="small"><?= $customer['account_name'] ?></span>
+                  </td>
                   <td>
                     <a href="?page=savings&customer_id=<?php echo $customer['id'] ?>" class="btn btn-sm btn-primary mb-1 mb-lg-0">Savings</a>
-                    <a href="?page=change-amount&customer_id=<?php echo $customer['id'] ?>" class="btn btn-sm btn-outline-primary">Upgrade</a>
+                    <a href="?page=update-customer&id=<?= $customer['id'] ?>" class="btn btn-sm btn-outline-primary">Update</a>
+                    <form action="_/delete_customer.php" method="post" class="ms-3 d-inline-block" onsubmit="return confirm('Click OK to confirm delete')">
+                      <input type="hidden" name="tbl" value="customers">
+                      <input type="hidden" name="id" value="<?= $customer['id'] ?>">
+                      <button type="submit" class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </form>
                   </td>
                 </tr>
               <?php endforeach; ?>

@@ -1,6 +1,5 @@
 <?php
 if ($user['role'] !== 'administrator') die;
-
 $places = get_data('places');
 ?>
 <button type="button" class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addPlaceModal">
@@ -41,6 +40,7 @@ $places = get_data('places');
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Place of Coverage</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -51,6 +51,18 @@ $places = get_data('places');
                   </td>
                   <td>
                     <?= ucwords($place['place']) ?> <br>
+                  </td>
+                  <td>
+                    <a href="?page=edit-place&id=<?= $place['id'] ?>" class="btn btn-sm btn-outline-primary">
+                      <i class="bi bi-pencil"></i>
+                    </a>
+                    <form action="_/delete.php" method="post" class="d-inline-block" onsubmit="return confirm('Click OK to confirm delete')">
+                      <input type="hidden" name="tbl" value="places">
+                      <input type="hidden" name="id" value="<?= $place['id'] ?>">
+                      <button type="submit" class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </form>
                   </td>
                 </tr>
               <?php endforeach; ?>

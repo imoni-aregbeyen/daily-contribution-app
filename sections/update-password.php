@@ -13,21 +13,21 @@ $name = explode(' ', $user['name']);
   <div class="mb-3">
     <label for="currentPassword" class="form-label">Current Password</label>
     <div class="">
-      <input name="current_password" type="password" class="form-control" id="currentPassword">
+      <input name="current_password" type="password" class="form-control" id="currentPassword" required>
     </div>
   </div>
 
   <div class="mb-3">
     <label for="newPassword" class="form-label">New Password</label>
     <div class="">
-      <input name="new_password" type="password" class="form-control" id="newPassword">
+      <input name="new_password" type="password" class="form-control" id="newPassword" required>
     </div>
   </div>
 
   <div class="mb-3">
     <label for="renewPassword" class="form-label">Re-enter New Password</label>
     <div class="">
-      <input name="renewpassword" type="password" class="form-control" id="renewPassword">
+      <input name="renewpassword" type="password" class="form-control" id="renewPassword" required>
     </div>
   </div>
 

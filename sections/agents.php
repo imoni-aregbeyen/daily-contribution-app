@@ -9,6 +9,8 @@ $ppas = get_data('places');
 foreach($ppas as $ppa){
   $places[] = $ppa['place'];
 }
+
+$settings = get_data('settings')[0];
 ?>
 <button type="button" class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addAgentModal">
   Add Agent
@@ -43,10 +45,23 @@ foreach($ppas as $ppa){
               </select>
             </div>
             <div class="col-12">
+              <label for="code" class="form-label">Code</label>
+              <input type="text" class="form-control" name="code" value="<?= $settings['abbr'] . mt_rand(10000, 99999) ?>">
+            </div>
+            <div class="col-12">
               <label for="password" class="form-label">Create Password</label>
               <div class="input-group">
-                <input type="password" name="password" class="form-control" id="password" required>
+                <input type="password" name="password" class="form-control" id="password" value="12345678" required>
               </div>
+              <span class="small fst-italic">Default password is: 12345678</span>
+            </div>
+            <div class="col-12">
+              <label for="guarantorName" class="form-label">Guarantor Name *</label>
+              <input type="text" name="guarantor_name" id="guarantorName" class="form-control" required>
+            </div>
+            <div class="col-12">
+              <label for="guarantorPhone" class="form-label">Guarantor Phone *</label>
+              <input type="text" name="guarantor_phone" id="guarantorPhone" class="form-control" required>
             </div>
             <div class="col-12">
               <button type="submit" class="btn btn-primary w-100">Create Account</button>
@@ -68,9 +83,11 @@ foreach($ppas as $ppa){
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
+                <th scope="col">Code</th>
                 <th scope="col">
                   <small>Place of Assignment</small>
                 </th>
+                <th scope="col">Guarantor</th>
                 <th></th>
               </tr>
             </thead>
@@ -84,8 +101,24 @@ foreach($ppas as $ppa){
                       <a href="tel:<?= $agent['phone'] ?>"><?= $agent['phone'] ?></a>
                     </small>
                   </td>
+                  <td>
+                    <?= $agent['code'] ?>
+                  </td>
                   <td><?= ucwords($agent['place']) ?></td>
-                  <td><a href="?page=edit-agent&id=<?= $agent['id'] ?>" class="btn btn-primary"><i class="bi bi-pencil"></i></a></td>
+                  <td>
+                    <?= ucwords($agent['guarantor_name']) ?> <br>
+                    <a href="tel:<?= $agent['guarantor_phone'] ?>"><?= $agent['guarantor_phone'] ?></a>
+                  </td>
+                  <td>
+                    <a href="?page=edit-agent&id=<?= $agent['id'] ?>" class="btn btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                    <form action="_/delete.php" method="post" class="d-inline-block" onsubmit="return confirm('Click OK to confirm delete')">
+                      <input type="hidden" name="tbl" value="agents">
+                      <input type="hidden" name="id" value="<?= $agent['id'] ?>">
+                      <button type="submit" class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </form>
+                  </td>
                 </tr>
               <?php endforeach; ?>
             </tbody>

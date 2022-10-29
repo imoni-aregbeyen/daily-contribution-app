@@ -30,6 +30,14 @@ $places = get_data('places');
           </select>
         </div>
         <div class="col-12">
+          <label for="guarantorName" class="form-label">Guarantor Name</label>
+          <input type="text" name="guarantor_name" id="guarantorName" class="form-control" value="<?= $agent['guarantor_name'] ?>" required>
+        </div>
+        <div class="col-12">
+          <label for="guarantorPhone" class="form-label">Guarantor Phone</label>
+          <input type="tel" name="guarantor_phone" id="guarantorPhone" class="form-control" value="<?= $agent['guarantor_phone'] ?>" required>
+        </div>
+        <div class="col-12">
           <button type="submit" class="btn btn-primary w-100">Update Agent Details</button>
         </div>
       </div>
