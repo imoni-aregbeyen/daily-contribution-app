@@ -36,6 +36,14 @@ $settings = get_data('settings')[0];
               <input type="tel" name="phone" id="phone" class="form-control" required>
             </div>
             <div class="col-12">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" name="email" id="email" class="form-control">
+            </div>
+            <div class="col-12">
+              <label for="address" class="form-label">Address</label>
+              <textarea name="address" id="address" rows="2" class="form-control"></textarea>
+            </div>
+            <div class="col-12">
               <label for="place" class="form-label">Place of Assignment</label>
               <select name="place" id="place" class="form-select" required>
                 <option value="">Select a Place</option>
@@ -83,6 +91,7 @@ $settings = get_data('settings')[0];
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
+                <th scope="col">Address</th>
                 <th scope="col">Code</th>
                 <th scope="col">
                   <small>Place of Assignment</small>
@@ -101,6 +110,7 @@ $settings = get_data('settings')[0];
                       <a href="tel:<?= $agent['phone'] ?>"><?= $agent['phone'] ?></a>
                     </small>
                   </td>
+                  <td><?= $agent['address'] ?></td>
                   <td>
                     <?= $agent['code'] ?>
                   </td>

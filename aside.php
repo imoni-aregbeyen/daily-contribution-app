@@ -56,10 +56,10 @@
       </a>
     </li><!-- End Withdrawals Page Nav -->
     <li>
-      <!-- <a class="nav-link collapsed" href="?page=loans">
+      <a class="nav-link collapsed" href="?page=loans">
         <i class="bi bi-cash-stack"></i>
         <span>Loans</span>
-      </a> -->
+      </a>
     </li><!-- End Loans Page Nav -->
 
     <li class="nav-item">

@@ -21,6 +21,14 @@ $places = get_data('places');
           <input type="tel" name="phone" id="phone" class="form-control" value="<?= $agent['phone'] ?>" required>
         </div>
         <div class="col-12">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" name="email" id="email" class="form-control" value="<?= $agent['phone'] ?>">
+        </div>
+        <div class="col-12">
+          <label for="address" class="form-label">Address</label>
+          <textarea name="address" id="address" rows="2" class="form-control"><?= $agent['address'] ?></textarea>
+        </div>
+        <div class="col-12">
           <label for="place" class="form-label">Place of Assignment</label>
           <select name="place" id="place" class="form-select" required>
             <option value="">Select a Place</option>

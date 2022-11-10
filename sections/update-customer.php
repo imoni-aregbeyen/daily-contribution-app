@@ -34,6 +34,13 @@ $readonly = $user['role'] === 'administrator' ? '' : 'readonly';
   </div>
 
   <div class="row mb-3">
+    <label for="email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+    <div class="col-md-8 col-lg-9">
+      <input type="email" name="email" id="email" class="form-control" value="<?= $agent['phone'] ?>">
+    </div>
+  </div>
+
+  <div class="row mb-3">
     <label for="amount" class="col-md-4 col-lg-3 col-form-label">Set Amount (&#8358;)</label>
     <div class="col-md-8 col-lg-9">
       <input name="amount" type="number" class="form-control" id="amount" min=5 step=5 value="<?= $customer['amount'] ?>">

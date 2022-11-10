@@ -32,6 +32,10 @@ if ($user['role'] === 'administrator') {
               <input type="tel" name="phone" id="phone" class="form-control" required>
             </div>
             <div class="col-12">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" name="email" id="email" class="form-control">
+            </div>
+            <div class="col-12">
               <label for="amount" class="form-label">Amount (Daily)</label>
               <div class="input-group">
                 <span class="input-group-text">&#8358;</span>

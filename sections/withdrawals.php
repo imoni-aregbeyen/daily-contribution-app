@@ -24,6 +24,8 @@ if ($user['role'] === 'administrator') {
   die;
 }
 $balance = $cash_in - $cash_out;
+$withdrawable = $balance - 500;
+if ($withdrawable < 0) $withdrawable = 0;
 ?>
 
 <?php if($user['role'] === 'customer'): ?>
@@ -45,8 +47,8 @@ $balance = $cash_in - $cash_out;
           <div class="row g-3">
             <div class="col-12">
               <label for="amount" class="form-label">Amount (&#8358;)</label>
-              <input type="number" id="amount" name="amount" class="form-control" max="<?= $balance ?>" min="5" step="5" required>
-              <span class="small fst-italic">Balance: &#8358;<?= number_format($balance) ?></span>
+              <input type="number" id="amount" name="amount" class="form-control" max="<?= $withdrawable ?>" min="500" step="5" required>
+              <span class="small fst-italic">Withdrawable: &#8358;<?= number_format($withdrawable) ?></span>
             </div>
             <div class="col-12">
               <button type="submit" class="btn btn-primary w-100">Send Request</button>
