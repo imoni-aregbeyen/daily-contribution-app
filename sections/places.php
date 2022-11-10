@@ -1,7 +1,9 @@
 <?php
-if ($user['role'] !== 'administrator') die;
+if (!in_array($user['role'], ['administrator', 'accountant', 'human resource'])) die;
 $places = get_data('places');
 ?>
+
+<?php if ($user['role'] === 'administrator'): ?>
 <button type="button" class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addPlaceModal">
   Add New Place
 </button>
@@ -29,6 +31,7 @@ $places = get_data('places');
     </div>
   </div>
 </div>
+<?php endif; ?>
 
 <div class="row">
   <div class="col-lg-12">
@@ -40,7 +43,9 @@ $places = get_data('places');
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Place of Coverage</th>
+                <?php if ($user['role'] === 'administrator'): ?>
                 <th></th>
+                <?php endif; ?>
               </tr>
             </thead>
             <tbody>
@@ -52,6 +57,7 @@ $places = get_data('places');
                   <td>
                     <?= ucwords($place['place']) ?> <br>
                   </td>
+                  <?php if ($user['role'] === 'administrator'): ?>
                   <td>
                     <a href="?page=edit-place&id=<?= $place['id'] ?>" class="btn btn-sm btn-outline-primary">
                       <i class="bi bi-pencil"></i>
@@ -64,6 +70,7 @@ $places = get_data('places');
                       </button>
                     </form>
                   </td>
+                  <?php endif; ?>
                 </tr>
               <?php endforeach; ?>
             </tbody>

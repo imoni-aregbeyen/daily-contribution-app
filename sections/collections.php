@@ -1,5 +1,5 @@
 <?php
-if ($user['role'] !== 'administrator') die;
+if (!in_array($user['role'], ['administrator', 'accountant', 'human resource'])) die;
 $agents = get_data('agents');
 $dt = isset($_GET['dt']) ? $_GET['dt'] : $today;
 ?>

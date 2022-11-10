@@ -1,7 +1,7 @@
 <?php
 $withdrawals = [];
 $cash_in = $cash_out = 0;
-if ($user['role'] === 'administrator') {
+if (in_array($user['role'], ['administrator', 'accountant', 'human resource'])) {
   $withdrawals = get_data('withdrawals', 'id > 0 ORDER BY status');
 } elseif ($user['role'] === 'customer') {
   $withdrawals = get_data('withdrawals', 'customer_id=' . $user['id'] . ' ORDER BY status');

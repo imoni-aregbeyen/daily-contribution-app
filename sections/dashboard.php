@@ -43,7 +43,7 @@ $with_count = count($withdrawals);
   <!-- Left side columns -->
   <div class="col-lg-12">
     <div class="row">
-      <?php if($user['role'] === 'administrator'): ?>
+      <?php if(in_array($user['role'], ['administrator', 'accountant', 'human resource'])): ?>
       <!-- Revenue Card -->
       <div class="col-xxl-4 col-md-4">
         <div class="card info-card revenue-card">
@@ -77,7 +77,7 @@ $with_count = count($withdrawals);
         </div>
       </div><!-- End Revenue Card -->
       <!-- Customers Card -->
-      <div class="col-xxl-4 col-xl-4">
+      <div class="col-xxl-4 col-md-4">
 
         <div class="card info-card customers-card">
 
@@ -111,7 +111,7 @@ $with_count = count($withdrawals);
 
       </div><!-- End Customers Card -->
       <!-- Withdrawals Card -->
-      <div class="col-xxl-4 col-xl-4">
+      <div class="col-xxl-4 col-md-4">
 
         <div class="card info-card withdrawal-card">
 

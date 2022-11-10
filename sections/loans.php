@@ -1,6 +1,6 @@
 <?php
 $loans = [];
-if ($user['role'] === 'administrator') {
+if (in_array($user['role'], ['administrator', 'accountant', 'human resource'])) {
   $loans = get_data('loans');
 } elseif ($user['role'] === 'customer') {
   $loans = get_data('loans', 'customer_id=' . $user['id']);

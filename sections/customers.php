@@ -8,6 +8,7 @@ if ($user['role'] === 'administrator') {
   $customers = get_data('customers', 'agent_id=' . $user['id']);
 }
 ?>
+<?php if (in_array($user['role'], ['administrator', 'agent', 'human resource'])): ?>
 <button type="button" class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addCustomerModal">
   Add Customer
 </button>
@@ -107,6 +108,7 @@ if ($user['role'] === 'administrator') {
     </div>
   </div>
 </div>
+<?php endif; ?>
 
 <div class="row">
   <div class="col-lg-12">

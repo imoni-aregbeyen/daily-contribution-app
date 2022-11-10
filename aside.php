@@ -11,13 +11,14 @@
 
     <li class="nav-heading">Pages</li>
 
-    <?php if($user['role'] === 'administrator'): ?>
+    <?php if(in_array($user['role'], ['administrator', 'accountant', 'human resource'])): ?>
     <li class="nav-item">
       <a class="nav-link collapsed" href="?page=collections">
         <i class="bi bi-collection"></i>
         <span>Collections</span>
       </a>
     </li><!-- End Places Page Nav -->
+    <?php if ($user['role'] !== 'accountant'): ?>
     <li class="nav-item">
       <a class="nav-link collapsed" href="?page=places">
         <i class="bi bi-building"></i>
@@ -30,9 +31,16 @@
         <span>Agents</span>
       </a>
     </li><!-- End Agents Page Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="?page=admins">
+        <i class="bi bi-person-badge"></i>
+        <span>Admins</span>
+      </a>
+    </li><!-- End Agents Page Nav -->
+    <?php endif; ?>
     <?php endif; ?>
 
-    <?php if($user['role'] === 'administrator' || $user['role'] === 'agent'): ?>
+    <?php if(in_array($user['role'], ['administrator', 'agent', 'human resource', 'accountant'])): ?>
     <li class="nav-item">
       <a class="nav-link collapsed" href="?page=customers">
         <i class="bi bi-person"></i>
@@ -68,6 +76,13 @@
         <span>Profile</span>
       </a>
     </li><!-- End Profile Page Nav -->
+
+    <li class="nav-item d-lg-none">
+      <a href="_/logout.php" class="nav-link text-danger">
+        <i class="bi bi-arrow-left"></i>
+        <span>logout</span>
+      </a>
+    </li>
 
   </ul>
 

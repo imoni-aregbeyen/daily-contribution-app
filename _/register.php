@@ -5,7 +5,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   // CUSTOM START
   if ($tbl === 'customers') $_POST['role'] = 'customer';
   if ($tbl === 'agents') $_POST['role'] = 'agent';
-  if ($tbl === 'users') $_POST['role'] = 'administrator';
+  // if ($tbl === 'users') $_POST['role'] = 'administrator';
   // CUSTOM STOP
   foreach ($_POST as $name => $value) {
     if (strpos($tbl, $name) === 0) {

@@ -1,33 +1,28 @@
 <?php
-if (!in_array($user['role'], ['administrator', 'accountant', 'human resource'])) die;
+$roles = ['administrator', 'accountant', 'human resource'];
+if (!in_array($user['role'], $roles)) die;
 
-$agents = get_data('agents');
-rsort($agents);
-
-$places = [];
-$ppas = get_data('places');
-foreach($ppas as $ppa){
-  $places[] = $ppa['place'];
-}
+$admins = get_data('users');
+rsort($admins);
 
 $settings = get_data('settings')[0];
 ?>
-
-<?php if (in_array($user['role'], ['administrator', 'human resource'])): ?>
-<button type="button" class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addAgentModal">
-  Add Agent
+<?php if ($user['role'] === 'administrator'): ?>
+<button type="button" class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addAdminModal">
+  Add Admin
 </button>
-<div class="modal fade" id="addAgentModal" tabindex="-1">
+<div class="modal fade" id="addAdminModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Register A New Agent</h5>
+        <h5 class="modal-title">Register A New Admin</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form action="_/register.php" method="post">
-          <input type="hidden" name="tbl" value="agents">
+          <input type="hidden" name="tbl" value="users">
           <input type="hidden" name="dis" value="phone">
+          <input type="hidden" name="logged_in" value=1>
           <div class="row g-3">
             <div class="col-12">
               <label for="name" class="form-label">Full Name</label>
@@ -46,17 +41,13 @@ $settings = get_data('settings')[0];
               <textarea name="address" id="address" rows="2" class="form-control"></textarea>
             </div>
             <div class="col-12">
-              <label for="place" class="form-label">Place of Assignment</label>
-              <select name="place" id="place" class="form-select" required>
-                <option value="">Select a Place</option>
-                <?php foreach($places as $place): ?>
-                  <option value="<?= $place ?>"><?= ucwords($place) ?></option>
-                <?php endforeach; ?>
+              <label for="role" class="form-label">Role</label>
+              <select name="role" id="role" class="form-select" required>
+                <option value="">-</option>
+                <option value="administrator">Administrator</option>
+                <option value="accountant">Accountant</option>
+                <option value="human resource">Human Resource</option>
               </select>
-            </div>
-            <div class="col-12">
-              <label for="code" class="form-label">Code</label>
-              <input type="text" class="form-control" name="code" value="<?= $settings['abbr'] . mt_rand(10000, 99999) ?>">
             </div>
             <div class="col-12">
               <label for="password" class="form-label">Create Password</label>
@@ -64,14 +55,6 @@ $settings = get_data('settings')[0];
                 <input type="password" name="password" class="form-control" id="password" value="12345678" required>
               </div>
               <span class="small fst-italic">Default password is: 12345678</span>
-            </div>
-            <div class="col-12">
-              <label for="guarantorName" class="form-label">Guarantor Name *</label>
-              <input type="text" name="guarantor_name" id="guarantorName" class="form-control" required>
-            </div>
-            <div class="col-12">
-              <label for="guarantorPhone" class="form-label">Guarantor Phone *</label>
-              <input type="text" name="guarantor_phone" id="guarantorPhone" class="form-control" required>
             </div>
             <div class="col-12">
               <button type="submit" class="btn btn-primary w-100">Create Account</button>
@@ -95,47 +78,34 @@ $settings = get_data('settings')[0];
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
                 <th scope="col">Address</th>
-                <th scope="col">Code</th>
-                <th scope="col">
-                  <small>Place of Assignment</small>
-                </th>
-                <th scope="col">Guarantor</th>
-                <?php if (in_array($user['role'], ['administrator', 'human resource'])): ?>
+                <th scope="col">Role</th>
                 <th></th>
-                <?php endif; ?>
               </tr>
             </thead>
             <tbody>
-              <?php $sn = 1; foreach($agents as $agent): ?>
+              <?php $sn = 1; foreach($admins as $admin): ?>
                 <tr>
                   <td><?= $sn++ ?></td>
                   <td>
-                    <?= ucwords($agent['name']) ?> <br>
+                    <?= ucwords($admin['name']) ?> <br>
                     <small>
-                      <a href="tel:<?= $agent['phone'] ?>"><?= $agent['phone'] ?></a>
+                      <a href="tel:<?= $admin['phone'] ?>"><?= $admin['phone'] ?></a>
                     </small>
                   </td>
-                  <td><?= $agent['address'] ?></td>
+                  <td><?= $admin['address'] ?></td>
+                  <td><?= ucwords($admin['role']) ?></td>
                   <td>
-                    <?= $agent['code'] ?>
-                  </td>
-                  <td><?= ucwords($agent['place']) ?></td>
-                  <td>
-                    <?= ucwords($agent['guarantor_name']) ?> <br>
-                    <a href="tel:<?= $agent['guarantor_phone'] ?>"><?= $agent['guarantor_phone'] ?></a>
-                  </td>
-                  <?php if (in_array($user['role'], ['administrator', 'human resource'])): ?>
-                  <td>
-                    <a href="?page=edit-agent&id=<?= $agent['id'] ?>" class="btn btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                    <?php if ($user['role'] === 'administrator'): ?>
+                    <a href="?page=edit-admin&id=<?= $admin['id'] ?>" class="btn btn-outline-primary"><i class="bi bi-pencil"></i></a>
                     <form action="_/delete.php" method="post" class="d-inline-block" onsubmit="return confirm('Click OK to confirm delete')">
-                      <input type="hidden" name="tbl" value="agents">
-                      <input type="hidden" name="id" value="<?= $agent['id'] ?>">
+                      <input type="hidden" name="tbl" value="users">
+                      <input type="hidden" name="id" value="<?= $admin['id'] ?>">
                       <button type="submit" class="btn btn-sm btn-outline-danger">
                         <i class="bi bi-trash"></i>
                       </button>
                     </form>
+                    <?php endif; ?>
                   </td>
-                  <?php endif; ?>
                 </tr>
               <?php endforeach; ?>
             </tbody>
